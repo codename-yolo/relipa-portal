@@ -26,21 +26,16 @@ const SearchBox = () => {
   const [params, setParams] = useState({
     sort: 'desc',
     startDate: null,
-    endDate: moment().subtract(1, 'days'),
+    endDate: moment(),
   })
 
   useEffect(() => {
-    const dateCompare =
-      moment().format('YYYY-MM-DD') ===
-      moment().startOf('month').format('YYYY-MM-DD')
-        ? moment().subtract(1, 'months').startOf('month')
-        : moment().startOf('month')
     dispatch(
       getTimeSheet({
         ...params,
         page: 1,
         perPage: 10,
-        startDate: dateCompare,
+        startDate: moment().startOf('month'),
       }),
     )
   }, [])
@@ -63,6 +58,7 @@ const SearchBox = () => {
               page: 1,
               perPage: worksheet.per_page,
               startDate: moment().subtract(1, 'year').startOf('year'),
+              endDate: moment(),
             }),
           )
           break
@@ -70,6 +66,7 @@ const SearchBox = () => {
           setParams((prev) => ({
             ...prev,
             startDate: moment().subtract(1, 'months').startOf('month'),
+            endDate: moment(),
           }))
           dispatch(
             getTimeSheet({
@@ -77,26 +74,23 @@ const SearchBox = () => {
               page: 1,
               perPage: worksheet.per_page,
               startDate: moment().subtract(1, 'months').startOf('month'),
+              endDate: moment(),
             }),
           )
           break
         case 3:
-          const dateCompare =
-            moment().format('YYYY-MM-DD') ===
-            moment().startOf('month').format('YYYY-MM-DD')
-              ? moment().subtract(1, 'months').startOf('month')
-              : moment().startOf('month')
-
           setParams((prev) => ({
             ...prev,
-            startDate: dateCompare,
+            startDate: moment().startOf('month'),
+            endDate: moment(),
           }))
           dispatch(
             getTimeSheet({
               ...params,
               page: 1,
               perPage: worksheet.per_page,
-              startDate: dateCompare,
+              startDate: moment().startOf('month'),
+              endDate: moment(),
             }),
           )
 
@@ -105,6 +99,7 @@ const SearchBox = () => {
           throw new Error('Invalid Selected')
       }
     } else if (values.selected === 2) {
+      console.log('test 2')
       if (errDate) {
         typePopup.popupNotice(
           typePopup.ERROR_MESSAGE,
@@ -131,7 +126,7 @@ const SearchBox = () => {
     setParams({
       sort: 'asc',
       startDate: null,
-      endDate: moment().subtract(1, 'days'),
+      endDate: moment(),
     })
   }
 
@@ -186,8 +181,8 @@ const SearchBox = () => {
                     <Form.Item name="startDate">
                       <DatePicker
                         format={dateTime.formatDateTypeDate}
-                        disabled={choose === 1}
                         value={params.startDate}
+                        disabled={choose === 1}
                         onChange={(date) => {
                           if (date) {
                             const compareDate = date.isBefore(params.endDate)
@@ -214,8 +209,8 @@ const SearchBox = () => {
                     <Form.Item name="endDate">
                       <DatePicker
                         format={dateTime.formatDateTypeDate}
-                        disabled={choose === 1}
                         value={params.endDate}
+                        disabled={choose === 1}
                         onChange={(date) => {
                           if (date) {
                             const compareDate = date.isAfter(params.startDate)
@@ -228,7 +223,7 @@ const SearchBox = () => {
                           } else {
                             setParams((prev) => ({
                               ...prev,
-                              endDate: moment().subtract(1, 'days'),
+                              endDate: moment(),
                             }))
                           }
                         }}
