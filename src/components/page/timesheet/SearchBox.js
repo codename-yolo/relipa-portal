@@ -24,7 +24,7 @@ const SearchBox = () => {
   const [errDate, setErrDate] = useState(false)
   const dispatch = useDispatch()
   const [params, setParams] = useState({
-    sort: 'desc',
+    sort: 'asc',
     startDate: null,
     endDate: moment(),
   })
@@ -51,6 +51,7 @@ const SearchBox = () => {
           setParams((prev) => ({
             ...prev,
             startDate: moment().subtract(1, 'year').startOf('year'),
+            endDate: moment().subtract(1, 'year').endOf('year'),
           }))
           dispatch(
             getTimeSheet({
@@ -58,7 +59,7 @@ const SearchBox = () => {
               page: 1,
               perPage: worksheet.per_page,
               startDate: moment().subtract(1, 'year').startOf('year'),
-              endDate: moment(),
+              endDate: moment().subtract(1, 'year').endOf('year'),
             }),
           )
           break
@@ -66,7 +67,7 @@ const SearchBox = () => {
           setParams((prev) => ({
             ...prev,
             startDate: moment().subtract(1, 'months').startOf('month'),
-            endDate: moment(),
+            endDate: moment().subtract(1, 'months').endOf('month'),
           }))
           dispatch(
             getTimeSheet({
@@ -74,7 +75,7 @@ const SearchBox = () => {
               page: 1,
               perPage: worksheet.per_page,
               startDate: moment().subtract(1, 'months').startOf('month'),
-              endDate: moment(),
+              endDate: moment().subtract(1, 'months').endOf('month'),
             }),
           )
           break
@@ -132,6 +133,9 @@ const SearchBox = () => {
 
   const [form] = Form.useForm()
   const onChangeChoose = (e) => {
+    if (e.target.value === 2) {
+      setParams({ sort: 'asc', startDate: null, endDate: moment() })
+    }
     setChoose(e.target.value)
   }
 
@@ -150,7 +154,7 @@ const SearchBox = () => {
             initialValues={{
               selectedDate: 3,
               selected: 1,
-              sort: 'desc',
+              sort: 'asc',
               endDate: params.endDate,
               radioGroup: 2,
             }}
@@ -181,7 +185,6 @@ const SearchBox = () => {
                     <Form.Item name="startDate">
                       <DatePicker
                         format={dateTime.formatDateTypeDate}
-                        value={params.startDate}
                         disabled={choose === 1}
                         onChange={(date) => {
                           if (date) {
@@ -209,8 +212,8 @@ const SearchBox = () => {
                     <Form.Item name="endDate">
                       <DatePicker
                         format={dateTime.formatDateTypeDate}
-                        value={params.endDate}
                         disabled={choose === 1}
+                        value={params.endDate}
                         onChange={(date) => {
                           if (date) {
                             const compareDate = date.isAfter(params.startDate)

@@ -1,3 +1,4 @@
+/* eslint-disable  no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react'
 import { Row, Col, DatePicker, Input, Skeleton } from 'antd'
 import { useSelector, useDispatch } from 'react-redux'
@@ -54,6 +55,7 @@ const Index = ({ handleCloseLateEarly, isOpen, row }) => {
       .catch(() => {
         return null
       })
+    setOverTime(response)
     return response
   }
 
@@ -108,6 +110,7 @@ const Index = ({ handleCloseLateEarly, isOpen, row }) => {
     if (Object.keys(request).length !== 0) {
       setValue('reasonInput', request.reason)
       setRequestExists(true)
+      setOverTime(request.compensation_time)
     }
   }, [request])
 
@@ -311,11 +314,15 @@ const Index = ({ handleCloseLateEarly, isOpen, row }) => {
                                   )}
                                   format={dateTime.formatDateTypeYear}
                                   onChange={(e) => {
-                                    const res = async () => {
+                                    const getOverTime = async () => {
                                       const response = await getCompensation(e)
                                       setOverTime(response)
                                     }
-                                    res()
+                                    if (!e) {
+                                      return setOverTime('')
+                                    }
+                                    getOverTime()
+
                                     return field.onChange(e)
                                   }}
                                   defaultValue={
