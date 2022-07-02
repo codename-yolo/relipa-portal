@@ -25,7 +25,7 @@ const SearchBox = () => {
   const dispatch = useDispatch()
   const [params, setParams] = useState({
     sort: 'asc',
-    startDate: null,
+    startDate: moment().startOf('month'),
     endDate: moment(),
     startDateChoose: null,
     endDateChoose: moment(),
@@ -37,7 +37,6 @@ const SearchBox = () => {
         ...params,
         page: 1,
         perPage: 10,
-        startDate: moment().startOf('month'),
       }),
     )
   }, [])

@@ -394,28 +394,8 @@ const TableTimesheet = ({ row, params, choose }) => {
     },
   ]
 
-  const onShowSizeChange = (page, size) => {
-    switch (choose) {
-      case 1:
-        dispatch(getTimeSheet({ ...params, page: page, perPage: size }))
-        return
-      case 2:
-        dispatch(
-          getTimeSheet({
-            ...params,
-            startDate: params.startDateChoose,
-            endDate: params.endDateChoose,
-            page: page,
-            perPage: size,
-          }),
-        )
-        return
-      default:
-        throw new Error('Invalid Choose!')
-    }
-  }
-
   const onChange = (size, page) => {
+    console.log('onchange', size, page, params)
     switch (choose) {
       case 1:
         dispatch(getTimeSheet({ ...params, page: size, perPage: page }))
@@ -593,7 +573,6 @@ const TableTimesheet = ({ row, params, choose }) => {
         pagination={{
           current: row.current_page,
           total: row.total,
-          onShowSizeChange: onShowSizeChange,
           itemRender: itemRender,
           onChange: onChange,
         }}
