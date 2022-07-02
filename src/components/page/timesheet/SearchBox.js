@@ -53,6 +53,10 @@ const SearchBox = () => {
             startDate: moment().subtract(1, 'year').startOf('year'),
             endDate: moment().subtract(1, 'year').endOf('year'),
           }))
+          form.setFieldsValue({
+            startDate: moment().subtract(1, 'year').startOf('year'),
+            endDate: moment().subtract(1, 'year').endOf('year'),
+          })
           dispatch(
             getTimeSheet({
               ...params,
@@ -69,6 +73,10 @@ const SearchBox = () => {
             startDate: moment().subtract(1, 'months').startOf('month'),
             endDate: moment().subtract(1, 'months').endOf('month'),
           }))
+          form.setFieldsValue({
+            startDate: moment().subtract(1, 'months').startOf('month'),
+            endDate: moment().subtract(1, 'months').endOf('month'),
+          })
           dispatch(
             getTimeSheet({
               ...params,
@@ -85,6 +93,10 @@ const SearchBox = () => {
             startDate: moment().startOf('month'),
             endDate: moment(),
           }))
+          form.setFieldsValue({
+            startDate: moment().startOf('month'),
+            endDate: moment(),
+          })
           dispatch(
             getTimeSheet({
               ...params,
@@ -100,7 +112,6 @@ const SearchBox = () => {
           throw new Error('Invalid Selected')
       }
     } else if (values.selected === 2) {
-      console.log('test 2')
       if (errDate) {
         typePopup.popupNotice(
           typePopup.ERROR_MESSAGE,
@@ -109,6 +120,7 @@ const SearchBox = () => {
         )
         return null
       }
+
       dispatch(
         getTimeSheet({
           ...params,
@@ -132,10 +144,8 @@ const SearchBox = () => {
   }
 
   const [form] = Form.useForm()
+  console.log('form', form)
   const onChangeChoose = (e) => {
-    if (e.target.value === 2) {
-      setParams({ sort: 'asc', startDate: null, endDate: moment() })
-    }
     setChoose(e.target.value)
   }
 
@@ -185,6 +195,7 @@ const SearchBox = () => {
                     <Form.Item name="startDate">
                       <DatePicker
                         format={dateTime.formatDateTypeDate}
+                        value={params.startDate}
                         disabled={choose === 1}
                         onChange={(date) => {
                           if (date) {

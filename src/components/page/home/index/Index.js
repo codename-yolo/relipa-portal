@@ -369,7 +369,16 @@ const Index = () => {
             <Col xl={3}>Attachment: </Col>
             <Col xl={21}>
               <p>
-                <span className="colorBlue" style={{ fontWeight: 600 }}>
+                <span
+                  className="colorBlue"
+                  onClick={() => {
+                    saveAs(
+                      `${modal.data.attachment}`,
+                      `${modal.data.attachment}`,
+                    )
+                  }}
+                  style={{ fontWeight: 600 }}
+                >
                   {modal?.data?.attachment &&
                     shortenLink(modal?.data?.attachment)}
                 </span>
