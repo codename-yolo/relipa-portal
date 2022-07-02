@@ -27,6 +27,8 @@ const SearchBox = () => {
     sort: 'asc',
     startDate: null,
     endDate: moment(),
+    startDateChoose: null,
+    endDateChoose: moment(),
   })
 
   useEffect(() => {
@@ -53,10 +55,10 @@ const SearchBox = () => {
             startDate: moment().subtract(1, 'year').startOf('year'),
             endDate: moment().subtract(1, 'year').endOf('year'),
           }))
-          form.setFieldsValue({
-            startDate: moment().subtract(1, 'year').startOf('year'),
-            endDate: moment().subtract(1, 'year').endOf('year'),
-          })
+          // form.setFieldsValue({
+          //   startDate: moment().subtract(1, 'year').startOf('year'),
+          //   endDate: moment().subtract(1, 'year').endOf('year'),
+          // })
           dispatch(
             getTimeSheet({
               ...params,
@@ -73,10 +75,10 @@ const SearchBox = () => {
             startDate: moment().subtract(1, 'months').startOf('month'),
             endDate: moment().subtract(1, 'months').endOf('month'),
           }))
-          form.setFieldsValue({
-            startDate: moment().subtract(1, 'months').startOf('month'),
-            endDate: moment().subtract(1, 'months').endOf('month'),
-          })
+          // form.setFieldsValue({
+          //   startDate: moment().subtract(1, 'months').startOf('month'),
+          //   endDate: moment().subtract(1, 'months').endOf('month'),
+          // })
           dispatch(
             getTimeSheet({
               ...params,
@@ -93,10 +95,10 @@ const SearchBox = () => {
             startDate: moment().startOf('month'),
             endDate: moment(),
           }))
-          form.setFieldsValue({
-            startDate: moment().startOf('month'),
-            endDate: moment(),
-          })
+          // form.setFieldsValue({
+          //   startDate: moment().startOf('month'),
+          //   endDate: moment(),
+          // })
           dispatch(
             getTimeSheet({
               ...params,
@@ -124,6 +126,8 @@ const SearchBox = () => {
       dispatch(
         getTimeSheet({
           ...params,
+          startDate: params.startDateChoose,
+          endDate: params.endDateChoose,
           page: 1,
           perPage: worksheet.per_page,
         }),
@@ -140,6 +144,8 @@ const SearchBox = () => {
       sort: 'asc',
       startDate: null,
       endDate: moment(),
+      startDateChoose: null,
+      endDateChoose: moment(),
     })
   }
 
@@ -164,7 +170,7 @@ const SearchBox = () => {
               selectedDate: 3,
               selected: 1,
               sort: 'asc',
-              endDate: params.endDate,
+              endDate: params.endDateChoose,
               radioGroup: 2,
             }}
           >
@@ -195,29 +201,29 @@ const SearchBox = () => {
                       <DatePicker
                         format={dateTime.formatDateTypeDate}
                         disabledDate={(current) => current.isAfter(moment())}
-                        value={params.startDate}
+                        value={params.startDateChoose}
                         disabled={choose === 1}
                         onChange={(date) => {
                           if (date) {
                             const compareDate =
-                              date.isBefore(params.endDate) ||
+                              date.isBefore(params.endDateChoose) ||
                               date.format('YYYY-MM-DD') ===
-                                params.endDate.format('YYYY-MM-DD')
+                                params.endDateChoose.format('YYYY-MM-DD')
                                 ? true
                                 : false
-                            if (!compareDate && params.endDate !== null) {
+                            if (!compareDate && params.endDateChoose !== null) {
                               setErrDate(true)
                             } else {
                               setErrDate(false)
                             }
                             setParams((prev) => ({
                               ...prev,
-                              startDate: date,
+                              startDateChoose: date,
                             }))
                           } else {
                             setParams((prev) => ({
                               ...prev,
-                              startDate: null,
+                              startDateChoose: null,
                             }))
                           }
                         }}
@@ -230,25 +236,31 @@ const SearchBox = () => {
                         format={dateTime.formatDateTypeDate}
                         disabledDate={(current) => current.isAfter(moment())}
                         disabled={choose === 1}
-                        value={params.endDate}
+                        value={params.endDateChoose}
                         onChange={(date) => {
                           if (date) {
                             const compareDate =
-                              date.isAfter(params.startDate) ||
+                              date.isAfter(params.startDateChoose) ||
                               date.format('YYYY-MM-DD') ===
-                                params.startDate.format('YYYY-MM-DD')
+                                params.startDateChoose.format('YYYY-MM-DD')
                                 ? true
                                 : false
-                            if (params.startDate !== null && !compareDate) {
+                            if (
+                              params.startDateChoose !== null &&
+                              !compareDate
+                            ) {
                               setErrDate(true)
                             } else {
                               setErrDate(false)
                             }
-                            setParams((prev) => ({ ...prev, endDate: date }))
+                            setParams((prev) => ({
+                              ...prev,
+                              endDateChoose: date,
+                            }))
                           } else {
                             setParams((prev) => ({
                               ...prev,
-                              endDate: moment(),
+                              endDateChoose: moment(),
                             }))
                           }
                         }}
@@ -297,7 +309,11 @@ const SearchBox = () => {
         </fieldset>
 
         <>
-          <TableTimesheet row={worksheet} params={params}></TableTimesheet>
+          <TableTimesheet
+            row={worksheet}
+            params={params}
+            choose={choose}
+          ></TableTimesheet>
         </>
       </div>
     </>

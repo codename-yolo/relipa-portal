@@ -21,7 +21,7 @@ import {
 const { Text } = Typography
 import './TableTimesheet.scss'
 
-const TableTimesheet = ({ row, params }) => {
+const TableTimesheet = ({ row, params, choose }) => {
   const [isOpen, setIsOpen] = useState({
     isOpenForget: false,
     isOpenLeave: false,
@@ -395,11 +395,45 @@ const TableTimesheet = ({ row, params }) => {
   ]
 
   const onShowSizeChange = (page, size) => {
-    dispatch(getTimeSheet({ ...params, page: page, perPage: size }))
+    switch (choose) {
+      case 1:
+        dispatch(getTimeSheet({ ...params, page: page, perPage: size }))
+        return
+      case 2:
+        dispatch(
+          getTimeSheet({
+            ...params,
+            startDate: params.startDateChoose,
+            endDate: params.endDateChoose,
+            page: page,
+            perPage: size,
+          }),
+        )
+        return
+      default:
+        throw new Error('Invalid Choose!')
+    }
   }
 
   const onChange = (size, page) => {
-    dispatch(getTimeSheet({ ...params, page: size, perPage: page }))
+    switch (choose) {
+      case 1:
+        dispatch(getTimeSheet({ ...params, page: size, perPage: page }))
+        return
+      case 2:
+        dispatch(
+          getTimeSheet({
+            ...params,
+            startDate: params.startDateChoose,
+            endDate: params.endDateChoose,
+            page: size,
+            perPage: page,
+          }),
+        )
+        return
+      default:
+        throw new Error('Invalid Choose!')
+    }
   }
 
   const itemRender = (_, type, originalElement) => {
@@ -411,9 +445,26 @@ const TableTimesheet = ({ row, params }) => {
             disabled={row.current_page === 1}
             onClick={(e) => {
               e.stopPropagation()
-              dispatch(
-                getTimeSheet({ ...params, page: 1, perPage: row.per_page }),
-              )
+              switch (choose) {
+                case 1:
+                  dispatch(
+                    getTimeSheet({ ...params, page: 1, perPage: row.per_page }),
+                  )
+                  break
+                case 2:
+                  dispatch(
+                    getTimeSheet({
+                      ...params,
+                      startDate: params.startDateChoose,
+                      endDate: params.endDateChoose,
+                      page: 1,
+                      perPage: row.per_page,
+                    }),
+                  )
+                  break
+                default:
+                  throw new Error('Invalid Choose!')
+              }
             }}
             className="ant-pagination-item"
           ></Button>
@@ -439,13 +490,30 @@ const TableTimesheet = ({ row, params }) => {
             icon={<DoubleRightOutlined />}
             onClick={(e) => {
               e.stopPropagation()
-              dispatch(
-                getTimeSheet({
-                  ...params,
-                  page: row.last_page,
-                  perPage: row.per_page,
-                }),
-              )
+              switch (choose) {
+                case 1:
+                  dispatch(
+                    getTimeSheet({
+                      ...params,
+                      page: row.last_page,
+                      perPage: row.per_page,
+                    }),
+                  )
+                  break
+                case 2:
+                  dispatch(
+                    getTimeSheet({
+                      ...params,
+                      startDate: params.startDateChoose,
+                      endDate: params.endDateChoose,
+                      page: row.last_page,
+                      perPage: row.per_page,
+                    }),
+                  )
+                  break
+                default:
+                  throw new Error('Invalid Choose!')
+              }
             }}
             className="ant-pagination-item"
           ></Button>
@@ -574,6 +642,7 @@ const TableTimesheet = ({ row, params }) => {
 TableTimesheet.propTypes = {
   row: PropTypes.object,
   params: PropTypes.object,
+  choose: PropTypes.number,
 }
 
 export default TableTimesheet

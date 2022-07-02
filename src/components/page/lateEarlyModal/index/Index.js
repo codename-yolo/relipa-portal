@@ -36,7 +36,6 @@ const {
 const Index = ({ handleCloseLateEarly, isOpen, row }) => {
   const [requestExists, setRequestExists] = useState(false)
   const [overTime, setOverTime] = useState(null)
-  const checkRef = useRef(1)
 
   const timeRequest =
     !row?.late && !row?.early
@@ -75,18 +74,15 @@ const Index = ({ handleCloseLateEarly, isOpen, row }) => {
   }, [])
 
   useEffect(() => {
-    if (checkRef.current > 3) {
-      let dateTime = moment().subtract(1, 'days')
-      if (request.created_at) {
-        dateTime = new Date(request.compensation_date)
-      }
-      const getTimeOver = async () => {
-        const response = await getCompensation(dateTime)
-        setOverTime(response)
-      }
-      getTimeOver()
+    let dateTime = moment().subtract(1, 'days')
+    if (request.created_at) {
+      dateTime = new Date(request.compensation_date)
     }
-    checkRef.current++
+    const getTimeOver = async () => {
+      const response = await getCompensation(dateTime)
+      setOverTime(response)
+    }
+    getTimeOver()
   }, [request])
 
   const schema = yup.object().shape({
