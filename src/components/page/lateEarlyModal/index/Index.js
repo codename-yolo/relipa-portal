@@ -1,5 +1,4 @@
-/* eslint-disable  no-unused-vars */
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Row, Col, DatePicker, Input, Skeleton } from 'antd'
 import { useSelector, useDispatch } from 'react-redux'
 import * as yup from 'yup'
