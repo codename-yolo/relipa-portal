@@ -52,8 +52,8 @@ const SearchBox = () => {
         case 1:
           setParams((prev) => ({
             ...prev,
-            startDate: moment().subtract(1, 'year').startOf('year'),
-            endDate: moment().subtract(1, 'year').endOf('year'),
+            startDate: moment().startOf('year'),
+            endDate: moment(),
           }))
 
           dispatch(
@@ -61,8 +61,8 @@ const SearchBox = () => {
               ...params,
               page: 1,
               perPage: worksheet.per_page,
-              startDate: moment().subtract(1, 'year').startOf('year'),
-              endDate: moment().subtract(1, 'year').endOf('year'),
+              startDate: moment().startOf('year'),
+              endDate: moment(),
             }),
           )
           break
@@ -99,7 +99,22 @@ const SearchBox = () => {
               endDate: moment(),
             }),
           )
-
+          break
+        case 4:
+          setParams((prev) => ({
+            ...prev,
+            startDate: null,
+            endDate: moment(),
+          }))
+          dispatch(
+            getTimeSheet({
+              ...params,
+              page: 1,
+              perPage: worksheet.per_page,
+              startDate: null,
+              endDate: moment(),
+            }),
+          )
           break
         default:
           throw new Error('Invalid Selected')
@@ -184,7 +199,8 @@ const SearchBox = () => {
                     <Select style={{ width: 150 }} disabled={choose === 2}>
                       <Option value={3}>This month</Option>
                       <Option value={2}>Last month</Option>
-                      <Option value={1}>Last year</Option>
+                      <Option value={1}>This year</Option>
+                      <Option value={4}>All</Option>
                     </Select>
                   </Form.Item>
                   <Space direction="horizontal" size={25} align="center">

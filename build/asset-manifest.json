@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.bdc7f5fa.css",
-    "main.js": "/static/js/main.5691342e.js",
+    "main.js": "/static/js/main.507e6b46.js",
     "static/media/astronaut.svg": "/static/media/astronaut.560823e47b8b30be5a3748237ae4d0e3.svg",
     "static/media/spaceship.svg": "/static/media/spaceship.ed5043b01f978d689d92a545b7c86968.svg",
     "static/media/avatarDefault.png": "/static/media/avatarDefault.235f193d81e82bb12dc3.png",
@@ -17,10 +17,10 @@
     "static/media/overlayStars.svg": "/static/media/overlayStars.a862e028b2a7ceb63224.svg",
     "index.html": "/index.html",
     "main.bdc7f5fa.css.map": "/static/css/main.bdc7f5fa.css.map",
-    "main.5691342e.js.map": "/static/js/main.5691342e.js.map"
+    "main.507e6b46.js.map": "/static/js/main.507e6b46.js.map"
   },
   "entrypoints": [
     "static/css/main.bdc7f5fa.css",
-    "static/js/main.5691342e.js"
+    "static/js/main.507e6b46.js"
   ]
 }
