@@ -55,10 +55,7 @@ const SearchBox = () => {
             startDate: moment().subtract(1, 'year').startOf('year'),
             endDate: moment().subtract(1, 'year').endOf('year'),
           }))
-          // form.setFieldsValue({
-          //   startDate: moment().subtract(1, 'year').startOf('year'),
-          //   endDate: moment().subtract(1, 'year').endOf('year'),
-          // })
+
           dispatch(
             getTimeSheet({
               ...params,
@@ -75,10 +72,7 @@ const SearchBox = () => {
             startDate: moment().subtract(1, 'months').startOf('month'),
             endDate: moment().subtract(1, 'months').endOf('month'),
           }))
-          // form.setFieldsValue({
-          //   startDate: moment().subtract(1, 'months').startOf('month'),
-          //   endDate: moment().subtract(1, 'months').endOf('month'),
-          // })
+
           dispatch(
             getTimeSheet({
               ...params,
@@ -95,10 +89,7 @@ const SearchBox = () => {
             startDate: moment().startOf('month'),
             endDate: moment(),
           }))
-          // form.setFieldsValue({
-          //   startDate: moment().startOf('month'),
-          //   endDate: moment(),
-          // })
+
           dispatch(
             getTimeSheet({
               ...params,
