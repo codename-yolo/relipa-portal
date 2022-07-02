@@ -144,7 +144,6 @@ const SearchBox = () => {
   }
 
   const [form] = Form.useForm()
-  console.log('form', form)
   const onChangeChoose = (e) => {
     setChoose(e.target.value)
   }
@@ -195,11 +194,17 @@ const SearchBox = () => {
                     <Form.Item name="startDate">
                       <DatePicker
                         format={dateTime.formatDateTypeDate}
+                        disabledDate={(current) => current.isAfter(moment())}
                         value={params.startDate}
                         disabled={choose === 1}
                         onChange={(date) => {
                           if (date) {
-                            const compareDate = date.isBefore(params.endDate)
+                            const compareDate =
+                              date.isBefore(params.endDate) ||
+                              date.format('YYYY-MM-DD') ===
+                                params.endDate.format('YYYY-MM-DD')
+                                ? true
+                                : false
                             if (!compareDate && params.endDate !== null) {
                               setErrDate(true)
                             } else {
@@ -223,11 +228,17 @@ const SearchBox = () => {
                     <Form.Item name="endDate">
                       <DatePicker
                         format={dateTime.formatDateTypeDate}
+                        disabledDate={(current) => current.isAfter(moment())}
                         disabled={choose === 1}
                         value={params.endDate}
                         onChange={(date) => {
                           if (date) {
-                            const compareDate = date.isAfter(params.startDate)
+                            const compareDate =
+                              date.isAfter(params.startDate) ||
+                              date.format('YYYY-MM-DD') ===
+                                params.startDate.format('YYYY-MM-DD')
+                                ? true
+                                : false
                             if (params.startDate !== null && !compareDate) {
                               setErrDate(true)
                             } else {
