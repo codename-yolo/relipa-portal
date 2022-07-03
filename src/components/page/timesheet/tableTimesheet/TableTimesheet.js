@@ -395,7 +395,6 @@ const TableTimesheet = ({ row, params, choose }) => {
   ]
 
   const onChange = (size, page) => {
-    console.log('onchange', size, page, params)
     switch (choose) {
       case 1:
         dispatch(getTimeSheet({ ...params, page: size, perPage: page }))

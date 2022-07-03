@@ -96,13 +96,6 @@ const LeaveModal = ({ isOpen, row, handleCloseLeave }) => {
       setRequestExists(true)
     }
   }, [request])
-  console.log(
-    (row.checkin_original && row.checkout_original) ||
-      (row.checkin && row.checkout),
-    row.checkin_original && row.checkout_original,
-    row.checkin && row.checkout,
-    row,
-  )
   const onSubmit = async (values, e) => {
     if (!row.checkin_original && !row.checkin) {
       typePopup.popupNotice(

@@ -248,7 +248,9 @@ const SearchBox = () => {
                             const compareDate =
                               date.isAfter(params.startDateChoose) ||
                               date.format('YYYY-MM-DD') ===
-                                params.startDateChoose.format('YYYY-MM-DD')
+                                moment(params.startDateChoose).format(
+                                  'YYYY-MM-DD',
+                                )
                                 ? true
                                 : false
                             if (
